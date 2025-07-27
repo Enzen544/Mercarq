@@ -1,0 +1,25 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    working_dir: /var/www/html
+    command: >
+      sh -c "php artisan serve --host=0.0.0.0 --port=8000"
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: mercado
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
+
+  composer:
+    image: composer:latest
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ["composer", "install"]
