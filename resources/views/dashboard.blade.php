@@ -6,7 +6,12 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    {{-- Breadcrumb --}}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <x-breadcrumb :pages="[['name' => 'Panel de Control']]" />
+    </div>
+
+    <div class="py-6"> {{-- Cambié py-12 a py-6 para reducir espacio --}}
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -15,7 +20,7 @@
                         <p class="text-gray-600">Gestiona tu experiencia en Merqark desde aquí.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
                         <!-- Tarjeta 1: Planos -->
                         <div class="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                             <div class="p-5">
@@ -61,7 +66,7 @@
                         </div>
 
                         <!-- Tarjeta 3: Compras -->
-                         <div class="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        <div class="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                             <div class="p-5">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 text-orange-600 mb-4">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -78,6 +83,8 @@
                                 </a>
                             </div>
                         </div>
+
+                        <!-- Tarjeta 4: Invitar Usuario -->
                         <div class="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                             <div class="p-5">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 text-orange-600 mb-4">
@@ -107,4 +114,3 @@
         </div>
     </div>
 </x-app-layout>
-
