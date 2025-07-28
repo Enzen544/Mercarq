@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blueprint; // Importamos el modelo de planos
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,6 +15,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('index'); // Cambiamos 'welcome' por 'index'
+       
+        $latestBlueprints = Blueprint::where('is_public', true)
+                                    ->latest()
+                                    ->limit(5)
+                                    ->get();
+
+        return view('index', compact('latestBlueprints'));
     }
 }
