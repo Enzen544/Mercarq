@@ -6,21 +6,16 @@
     <title>Merqark - Planos Arquitectónicos</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=orbitron:400,700|roboto:400,700" rel="stylesheet" />
-    <!-- Enlazamos los assets compilados por Vite (Tailwind + JS) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <!-- Incluimos Alpine.js para interactividad -->
     <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white antialiased">
-    <!-- Script para el modo oscuro (debe ir antes del header) -->
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('themeSwitcher', () => ({
                 darkMode: Alpine.$persist(false).as('merqark-darkMode'),
                 init() {
-                    // Aplicar el tema guardado al cargar la página
                     this.applyTheme();
-                    // Observar cambios en la variable darkMode
                     this.$watch('darkMode', () => this.applyTheme());
                 },
                 applyTheme() {
@@ -37,7 +32,6 @@
         });
     </script>
 
-    <!-- Header con Modo Oscuro -->
     <header x-data="themeSwitcher"
         class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 transition-colors duration-300">
         <div class="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
@@ -53,16 +47,13 @@
                     class="hover:text-orange-500 dark:hover:text-orange-400 transition duration-150 font-medium">Contacto</a>
             </nav>
             <div class="flex items-center space-x-2 md:space-x-3">
-                <!-- Botón para cambiar modo Claro/Oscuro -->
                 <button @click="toggleTheme" id="theme-toggle" type="button"
                     class="text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 rounded-lg text-sm p-2">
-                    <!-- Icono de Sol (visible en modo oscuro) -->
                     <svg x-show="darkMode" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
                             fill-rule="evenodd" clip-rule="evenodd"></path>
                     </svg>
-                    <!-- Icono de Luna (visible en modo claro) -->
                     <svg x-show="!darkMode" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
@@ -88,7 +79,6 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section
         class="min-h-screen flex items-center justify-center text-center px-4 bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 dark:from-gray-900 dark:via-gray-950 dark:to-black relative overflow-hidden">
         <div class="absolute inset-0 z-0 opacity-20 dark:opacity-10">
@@ -122,7 +112,6 @@
         </div>
     </section>
 
-    <!-- Features Section -->
     <section id="features" class="py-20 bg-gray-100/50 dark:bg-gray-900/50">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-orange-600 dark:text-orange-400">¿Por qué elegir Merqark?</h2>
@@ -152,13 +141,11 @@
         </div>
     </section>
 
-    <!-- Carrusel de Últimos Planos -->
     <section id="plans" class="py-20 bg-gradient-to-b from-gray-100/50 dark:from-gray-900/50 to-gray-200/50 dark:to-black/50">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-orange-600 dark:text-orange-400">Últimos Planos Agregados</h2>
             <p class="text-center text-gray-600 dark:text-gray-400 mb-12">Descubre las últimas creaciones de nuestra comunidad.</p>
 
-            <!-- Carrusel con Alpine.js -->
             <div x-data="{
                 plans: @js($latestBlueprints ?? []),
                 currentIndex: 0,
@@ -183,7 +170,6 @@
                     }
                 }
             }" class="relative px-10 md:px-16">
-                <!-- Mensaje si no hay planos -->
                 <template x-if="!plans || plans.length === 0">
                     <div class="text-center py-10 text-gray-500 dark:text-gray-600">
                         <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -196,7 +182,6 @@
                     </div>
                 </template>
 
-                <!-- Contenedor del carrusel (solo si hay planos) -->
                 <template x-if="plans && plans.length > 0">
                     <div class="overflow-hidden">
                         <div class="flex transition-transform duration-500 ease-in-out"
@@ -248,7 +233,6 @@
                             </template>
                         </div>
 
-                        <!-- Botones de navegación del carrusel -->
                         <button @click="prev()" :disabled="currentIndex === 0"
                             class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-6 bg-white dark:bg-gray-800/50 text-orange-500 dark:text-orange-400 p-2.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700/80 transition duration-150 z-10 disabled:opacity-40 disabled:cursor-not-allowed border border-gray-200 dark:border-gray-700"
                             aria-label="Anterior">
@@ -280,7 +264,6 @@
         </div>
     </section>
 
-    <!-- Call to Action - FONDO ACTUALIZADO -->
     <section class="py-20 bg-gradient-to-r from-gray-100 via-gray-200/50 to-gray-100 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 border-y border-gray-200 dark:border-gray-800">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-bold mb-4 text-orange-600 dark:text-orange-400">¿Listo para comenzar?</h2>
@@ -295,12 +278,12 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="py-8 bg-gray-200/50 dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800">
         <div class="container mx-auto px-4 text-center text-gray-600 dark:text-gray-500 text-sm">
             <p>&copy; 2025 Merqark. Todos los derechos reservados. | Planos Arquitectónicos Premium</p>
         </div>
     </footer>
+<script src="https://website-widgets.pages.dev/dist/sienna.min.js" defer></script></body>
 
 </body>
 </html>

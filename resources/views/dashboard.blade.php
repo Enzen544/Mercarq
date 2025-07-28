@@ -21,7 +21,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-                        <!-- Tarjeta 1: Planos -->
                         <div class="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                             <div class="p-5">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 text-orange-600 mb-4">
@@ -46,7 +45,6 @@
                             </div>
                         </div>
 
-                        <!-- Tarjeta 2: Perfil -->
                         <div class="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                             <div class="p-5">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 text-orange-600 mb-4">
@@ -65,7 +63,6 @@
                             </div>
                         </div>
 
-                        <!-- Tarjeta 3: Compras -->
                         <div class="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                             <div class="p-5">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 text-orange-600 mb-4">
@@ -84,7 +81,6 @@
                             </div>
                         </div>
 
-                        <!-- Tarjeta 4: Invitar Usuario -->
                         <div class="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                             <div class="p-5">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 text-orange-600 mb-4">
@@ -112,5 +108,7 @@
                 </div>
             </div>
         </div>
+        <script src="https://website-widgets.pages.dev/dist/sienna.min.js" defer></script>
+
     </div>
 </x-app-layout>

@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-// Anotaciones para ayudar a IDEs/Intelephense
 /**
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Blueprint[] $blueprints
@@ -27,8 +26,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // Asegúrate de que 'role' esté aquí si lo estás usando
-        'avatar_path', // <-- Agregado para el avatar
+        'role',
+        'avatar_path',
     ];
 
     /**
@@ -61,18 +60,27 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        // Asegúrate de tener una columna 'role' en la tabla 'users'
-        // y que los admins tengan 'role' = 'admin'
         return $this->role === 'admin';
     }
 
     /**
-     * Get the column name for the "remember me" token.
-     * (Este método ya lo proporciona Notifiable, pero puedes personalizarlo si necesitas)
+     * Get the identifier that will be stored in the subject claim of the JWT.
      */
     public function username()
     {
         return 'email';
+    }
+
+    /**
+     *
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar_path) {
+            return asset('storage/' . $this->avatar_path);
+        }
+        
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&color=7F9CF5&background=EBF4FF';
     }
 
     /* --- Relaciones --- */
@@ -91,5 +99,24 @@ class User extends Authenticatable
     public function purchases(): HasMany
     {
         return $this->hasMany(Purchase::class);
+    }
+
+    /**
+     * Get the blueprints that are public for this user.
+     */
+    public function publicBlueprints(): HasMany
+    {
+        return $this->blueprints()->where('is_public', true);
+    }
+
+    /**
+     * Get the total earnings from blueprint sales for this user.
+     */
+    public function getTotalEarningsAttribute(): float
+    {
+        return $this->blueprints()
+            ->join('purchases', 'blueprints.id', '=', 'purchases.blueprint_id')
+            ->where('purchases.status', 'completed')
+            ->sum('purchases.amount');
     }
 }
