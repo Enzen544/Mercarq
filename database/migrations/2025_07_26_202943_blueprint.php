@@ -18,6 +18,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('file_path'); 
             $table->decimal('price', 10, 2)->default(0); 
+            $table->string('whatsapp_number', 20); 
+            $table->bigInteger('file_size')->nullable();
             $table->boolean('is_public')->default(false); 
             $table->timestamps();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('blueprints');
+        Schema::dropIfExists('blueprints'); 
     }
 };
