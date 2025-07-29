@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merqark - Planos Arquitectónicos</title>
+    <title>MERCARQ - Planos Arquitectónicos</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=orbitron:400,700|roboto:400,700" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -36,7 +36,7 @@
     class="bg-white/95 backdrop-blur-sm border-b border-[#C69A7D] sticky top-0 z-50 transition-colors duration-300">
     <div class="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
         <div class="text-2xl font-bold bg-gradient-to-r from-[#D76040] to-[#C69A7D] bg-clip-text text-transparent">
-            MERQARK
+            MERCARQ
         </div>
        <nav class="hidden md:flex space-x-6">
     <a href="#features"
@@ -89,7 +89,7 @@
             <span class="block">Diseña tu</span>
             <span
                 class="block bg-gradient-to-r from-[#D76040] to-[#C69A7D] bg-clip-text text-transparent">Futuro
-                con Merqark</span>
+                con MERCARQ</span>
         </h1>
         <p class="text-lg md:text-xl text-gray-700 mb-10 max-w-2xl mx-auto">
             Explora nuestra colección de planos arquitectónicos innovadores y da vida a tus ideas con diseños
@@ -114,15 +114,13 @@
 
    <section id="features" class="py-20 bg-[#F0E2D5]">
     <div class="container mx-auto px-4">
-        <!-- Título con borde decorativo -->
         <div class="text-center mb-16 relative inline-block">
             <h2 class="text-3xl md:text-4xl font-bold text-[#D76040] relative z-10">
-                ¿Por qué elegir Merqark?
+                ¿Por qué elegir MERCARQ?
             </h2>
             <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-[#D76040] to-[#C69A7D] rounded-full"></div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Tarjeta 1 -->
             <div
                 class="bg-white/90 p-6 rounded-xl border border-[#C69A7D]/60 hover:border-[#D76040] transition-all duration-300 hover:shadow-xl hover:shadow-[#D76040]/15 transform hover:-translate-y-1 flex flex-col items-center text-center group">
                 <div class="text-5xl mb-5 transform group-hover:scale-110 transition duration-300">📐</div>
@@ -132,7 +130,6 @@
                 </p>
             </div>
 
-            <!-- Tarjeta 2 -->
             <div
                 class="bg-white/90 p-6 rounded-xl border border-[#C69A7D]/60 hover:border-[#D76040] transition-all duration-300 hover:shadow-xl hover:shadow-[#D76040]/15 transform hover:-translate-y-1 flex flex-col items-center text-center group">
                 <div class="text-5xl mb-5 transform group-hover:scale-110 transition duration-300">🔒</div>
@@ -142,7 +139,6 @@
                 </p>
             </div>
 
-            <!-- Tarjeta 3 -->
             <div
                 class="bg-white/90 p-6 rounded-xl border border-[#C69A7D]/60 hover:border-[#D76040] transition-all duration-300 hover:shadow-xl hover:shadow-[#D76040]/15 transform hover:-translate-y-1 flex flex-col items-center text-center group">
                 <div class="text-5xl mb-5 transform group-hover:scale-110 transition duration-300">📥</div>
@@ -164,7 +160,6 @@
         </div>
         <p class="text-center text-[#5C4033] mb-12 text-lg">Descubre las últimas creaciones de nuestra comunidad.</p>
 
-        <!-- Slider con tarjetas mejoradas -->
         <div x-data="{
             plans: @js($latestBlueprints ?? []),
             currentIndex: 0,
@@ -222,17 +217,20 @@
                     window.location.href = `/planos/${this.previewFile.id}`;
                 }
             },
-            downloadFile() {
-                if (this.previewFile && this.previewFile.file_path) {
-                    const link = document.createElement('a');
-                    link.href = `/storage/${this.previewFile.file_path}`;
-                    link.download = this.previewFile.title || 'plano';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    this.closePurchaseModal();
-                }
-            },
+   downloadFile() {
+    if (this.previewFile && this.previewFile.id) {
+        // Verificar si es gratuito
+        if (parseFloat(this.previewFile.price || 0) === 0) {
+            // Para planos gratuitos, usar la ruta pública sin login
+            // Construimos la URL manualmente según la ruta definida
+            window.location.href = `/planos/${this.previewFile.id}/descargar`;
+        } else {
+            // Para planos pagos, redirigir al detalle (requerirá login)
+            window.location.href = `/planos/${this.previewFile.id}`;
+        }
+        this.closePurchaseModal();
+    }
+},
             getFileType(filename) {
                 if (!filename) return 'Archivo';
                 const ext = filename.split('.').pop().toLowerCase();
@@ -273,7 +271,6 @@
                             <div class="flex-shrink-0 w-full md:w-1/3 px-3">
                                 <div class="bg-white/95 rounded-xl overflow-hidden shadow-lg border border-[#C69A7D]/50 hover:border-[#D76040] transition-all duration-300 h-full flex flex-col transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#D76040]/20">
                                     
-                                    <!-- Imagen/Preview mejorada -->
                                     <div class="relative h-52 overflow-hidden bg-gradient-to-br from-[#EEC6BA] to-[#C69A7D] cursor-pointer group" @click="openPreview(plan)">
                                         <template x-if="plan.file_path && ['jpg', 'jpeg', 'png', 'gif'].includes((plan.file_path.split('.').pop() || '').toLowerCase())">
                                             <img :src="`/storage/${plan.file_path}`" :alt="plan.title" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
@@ -281,7 +278,6 @@
                                         
                                         <template x-if="plan.file_path && (plan.file_path.split('.').pop() || '').toLowerCase() === 'pdf'">
                                             <div class="w-full h-full flex items-center justify-center relative">
-                                                <!-- Vista previa simulada del PDF -->
                                                 <div class="w-32 h-40 bg-white shadow-lg rounded border-2 border-gray-200 flex flex-col relative transform rotate-3 group-hover:rotate-0 transition-transform duration-300">
                                                     <div class="h-3 bg-red-500 rounded-t"></div>
                                                     <div class="flex-1 p-2 space-y-1">
@@ -305,7 +301,6 @@
                                         
                                         <template x-if="plan.file_path && ['dwg', 'dxf'].includes((plan.file_path.split('.').pop() || '').toLowerCase())">
                                             <div class="w-full h-full flex items-center justify-center relative">
-                                                <!-- Vista previa simulada de CAD -->
                                                 <div class="w-40 h-32 bg-white shadow-lg rounded border-2 border-blue-200 flex items-center justify-center relative group-hover:scale-105 transition-transform duration-300">
                                                     <svg class="w-24 h-24 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
@@ -326,7 +321,6 @@
                                             </div>
                                         </template>
                                         
-                                        <!-- Overlay con efecto hover -->
                                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
                                             <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center">
                                                 <svg class="w-8 h-8 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -348,7 +342,6 @@
                                         <p class="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow" x-text="plan.description || 'Sin descripción disponible.'"></p>
                                         <div class="flex justify-between items-center mt-auto">
                                             <div class="flex items-center space-x-2">
-                                                <!-- Tipo de archivo con icono -->
                                                 <span class="text-xs px-2.5 py-1 rounded bg-[#EEC6BA]/60 text-[#5C4033] font-medium flex items-center space-x-1">
                                                     <template x-if="getFileIcon(plan.file_path) === 'pdf'">
                                                         <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -368,7 +361,6 @@
                                                     <span x-text="getFileType(plan.file_path)"></span>
                                                 </span>
                                                 
-                                                <!-- Botón de previsualizar -->
                                                 <button @click.stop="openPreview(plan)" 
                                                         class="text-xs px-2.5 py-1 rounded bg-blue-100 text-blue-700 hover:bg-blue-200 transition duration-200 font-medium flex items-center space-x-1">
                                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -390,7 +382,6 @@
                         </template>
                     </div>
                     
-                    <!-- Botones de navegación -->
                     <button @click="prev()" :disabled="currentIndex === 0"
                         class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-6 bg-white text-[#D76040] p-3 rounded-full hover:bg-[#D76040] hover:text-white border border-[#C69A7D] shadow-lg transition duration-200 z-10 disabled:opacity-40">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -406,12 +397,10 @@
                 </div>
             </template>
             
-            <!-- Modal de previsualización con contador -->
             <div x-show="previewModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
                 <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div class="fixed inset-0 bg-black bg-opacity-75 transition-opacity" @click="closePreview()"></div>
                     <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
-                        <!-- Contador en la parte superior -->
                         <div class="bg-gradient-to-r from-[#D76040] to-[#C69A7D] px-4 py-3 text-white text-center relative">
                             <div class="flex items-center justify-center space-x-2">
                                 <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -433,7 +422,6 @@
                                 </button>
                             </div>
                             <div class="w-full h-96 bg-gray-100 rounded-lg flex items-center justify-center relative">
-                                <!-- Overlay de preview limitado -->
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10 rounded-lg"></div>
                                 <div class="absolute bottom-4 left-4 right-4 z-20 text-white text-center">
                                     <p class="text-sm bg-black/50 rounded px-3 py-2 backdrop-blur-sm">
@@ -468,13 +456,11 @@
                 </div>
             </div>
             
-            <!-- Modal de compra/descarga -->
             <div x-show="showPurchaseModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
                 <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
                     <div class="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                         <div class="bg-white px-6 pt-6 pb-4">
-                            <!-- Icono y título -->
                             <div class="text-center mb-6">
                                 <template x-if="previewFile && parseFloat(previewFile.price || 0) === 0">
                                     <div class="mx-auto flex items-center justify-center h-16 w-16 bg-green-100 rounded-full mb-4">
@@ -512,7 +498,6 @@
                             </div>
                         </div>
                         
-                        <!-- Botones de acción -->
                         <div class="bg-gray-50 px-6 py-4 sm:flex sm:flex-row-reverse sm:space-x-reverse sm:space-x-3">
                             <template x-if="previewFile && parseFloat(previewFile.price || 0) === 0">
                                 <div class="sm:flex sm:flex-row-reverse sm:space-x-reverse sm:space-x-3 w-full">
@@ -577,7 +562,7 @@
 
  <footer class="py-8 bg-[#E4E4E5] border-t border-[#C69A7D]/30">
     <div class="container mx-auto px-4 text-center text-[#5C4033]/80 text-sm">
-        <p>&copy; 2025 Merqark. Todos los derechos reservados. | Planos Arquitectónicos Premium</p>
+        <p>&copy; 2025 MERCARQ. Todos los derechos reservados. | Planos Arquitectónicos Premium</p>
     </div>
 </footer>
 <script src="https://website-widgets.pages.dev/dist/sienna.min.js" defer></script>

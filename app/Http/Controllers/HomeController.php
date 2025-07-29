@@ -1,15 +1,15 @@
 <?php
-// app/Http/Controllers/HomeController.php
+
 
 namespace App\Http\Controllers;
 
-use App\Models\Blueprint; // Importamos el modelo de planos
+use App\Models\Blueprint; 
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     /**
-     * Muestra la página principal del sitio.
+     * 
      *
      * @return \Illuminate\Contracts\View\View
      */
@@ -18,7 +18,7 @@ class HomeController extends Controller
        
         $latestBlueprints = Blueprint::where('is_public', true)
                                     ->latest()
-                                    ->limit(5)
+                                    ->limit(6)
                                     ->get();
 
         return view('index', compact('latestBlueprints'));

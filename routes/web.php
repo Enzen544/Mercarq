@@ -7,13 +7,10 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\InvitationController;
 use Illuminate\Support\Facades\Route;
 
-// Rutas públicas
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/planos', function () {
-    $blueprints = \App\Models\Blueprint::where('is_public', true)->latest()->paginate(9);
-    return view('blueprints.public_index', compact('blueprints'));
-})->name('blueprints.public.index');
+Route::get('/planos', [App\Http\Controllers\BlueprintController::class, 'publicIndex'])
+    ->name('blueprints.public.index');
 
 Route::get('/planos/{blueprint}', function (\App\Models\Blueprint $blueprint) {
     if (!$blueprint->is_public) {
@@ -22,17 +19,14 @@ Route::get('/planos/{blueprint}', function (\App\Models\Blueprint $blueprint) {
     return view('blueprints.public_show', compact('blueprint'));
 })->name('blueprints.public.show');
 
-// ✅ Ruta pública para descarga gratuita
 Route::get('/planos/{blueprint}/descargar', [
     App\Http\Controllers\BlueprintController::class, 
     'downloadFree'
 ])->name('blueprints.download-free');
 
-// ✅ Otras rutas públicas
 Route::post('/planos/{blueprint}/comprar-whatsapp', [BlueprintController::class, 'whatsappPurchase'])->name('blueprints.whatsapp-purchase');
 Route::post('/planos/{blueprint}/descarga-gratuita', [BlueprintController::class, 'freeDownload'])->name('blueprints.free-download');
 
-// Rutas protegidas (requieren login)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');

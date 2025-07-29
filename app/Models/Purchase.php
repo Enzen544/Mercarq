@@ -1,6 +1,6 @@
 <?php
 
-// app/Models/Purchase.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +21,7 @@ class Purchase extends Model
     ];
 
     /**
-     * Get the user that owns the purchase.
+     * 
      */
     public function user(): BelongsTo
     {
@@ -29,7 +29,7 @@ class Purchase extends Model
     }
 
     /**
-     * Get the blueprint that was purchased.
+     * 
      */
     public function blueprint(): BelongsTo
     {

@@ -1,5 +1,8 @@
 {{-- resources/views/auth/login.blade.php --}}
 <x-guest-layout>
+    @push('title')
+LOGUEARSE - 
+@endpush
     <div class="w-full">
         @if (session('status'))
             <div class="mb-4 text-sm font-medium text-green-600 bg-green-50 p-3 rounded-md">
@@ -22,16 +25,15 @@
                     </div>
                 </a>
                 
-                {{-- Enlace en el texto de Merqark --}}
+               
                 <h2 class="text-2xl font-bold text-gray-800">
-                    Inicia Sesión en <a href="{{ route('home') }}" class="text-orange-600 hover:text-orange-700 transition-colors duration-300">Merqark</a>
+                    Inicia Sesión en <a href="{{ route('home') }}" class="text-orange-600 hover:text-orange-700 transition-colors duration-300">MerCarq</a>
                 </h2>
                 
                 <p class="text-sm text-orange-600 mt-1">¿Eres parte del equipo?</p>
                 <p class="text-xs text-gray-500 italic">Accede para gestionar proyectos y planos.</p>
             </div>
 
-            <!-- Email Address -->
             <div>
                 <x-input-label for="email" :value="__('Email')" class="text-orange-700 font-medium" />
                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -46,7 +48,6 @@
                 <x-input-error :messages="$errors->get('email')" class="mt-2 text-orange-600" />
             </div>
 
-            <!-- Password -->
             <div>
                 <x-input-label for="password" :value="__('Contraseña')" class="text-orange-700 font-medium" /> {{-- Ajustado color --}}
                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -64,7 +65,6 @@
                 <x-input-error :messages="$errors->get('password')" class="mt-2 text-orange-600" /> {{-- Ajustado color --}}
             </div>
 
-            <!-- Remember Me -->
             <div class="flex items-center">
                 <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-orange-600 shadow-sm focus:ring-orange-500" name="remember">
                 <label for="remember_me" class="ml-2 block text-sm text-gray-700"> {{-- Ajustado color --}}

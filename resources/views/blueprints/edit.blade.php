@@ -1,4 +1,7 @@
 <x-app-layout>
+    @push('title')
+EDITAR PLANOS - 
+@endpush
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Editar Plano') }}
@@ -6,7 +9,6 @@
     </x-slot>
 
     <div class="max-w-3xl mx-auto py-10 px-6">
-        <!-- Breadcrumb -->
         <x-breadcrumb :pages="[
             ['name' => 'Panel de Control', 'url' => route('dashboard')],
             ['name' => 'Mis Planos', 'url' => route('blueprints.index')],
@@ -28,7 +30,6 @@
                 @csrf
                 @method('PUT')
 
-                <!-- Título -->
                 <div class="mb-6">
                     <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Título del Plano</label>
                     <input type="text" name="title" id="title"
@@ -41,7 +42,6 @@
                     @enderror
                 </div>
 
-                <!-- Descripción -->
                 <div class="mb-6">
                     <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
                     <textarea name="description" id="description" rows="4"
@@ -70,7 +70,6 @@
                 <p class="mt-1 text-sm text-gray-500">Deja en 0 si el plano es gratuito. Ej: 14.200</p>
             </div>
 
-                <!-- WhatsApp -->
                 <div class="mb-6">
                     <label for="whatsapp_number" class="block text-sm font-medium text-gray-700 mb-1">Número de WhatsApp (solo dígitos)</label>
                     <input type="text" name="whatsapp_number" id="whatsapp_number"
@@ -83,7 +82,6 @@
                     @enderror
                 </div>
 
-                <!-- Archivo actual -->
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Archivo Actual</label>
                     <div class="flex items-center space-x-3 mb-2 bg-[#F0E2D5] p-3 rounded-lg border border-[#EEC6BA]">
@@ -101,7 +99,6 @@
                     </div>
                 </div>
 
-                <!-- Subir nuevo archivo -->
                 <div class="mb-6">
                     <label for="file" class="block text-sm font-medium text-gray-700 mb-1">Cambiar Archivo (opcional)</label>
                     <input type="file" name="file" id="file"
@@ -113,7 +110,6 @@
                     @enderror
                 </div>
 
-                <!-- Visibilidad -->
                 <div class="mb-8">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Visibilidad del Plano</label>
                     <div class="flex items-center">
@@ -129,7 +125,6 @@
                     </div>
                 </div>
 
-                <!-- Botones -->
                 <div class="flex justify-end space-x-4">
                     <a href="{{ route('blueprints.index') }}"
                        class="px-6 py-3 border border-[#C69A7D] text-[#C69A7D] rounded-lg hover:bg-[#EEC6BA] hover:text-[#5C4033] transition duration-200 font-medium text-base shadow-sm">
@@ -144,24 +139,18 @@
         </div>
     </div>
 
-    <!-- Script para formato de precio en pesos COP -->
 <script>
 function formatAndSetPrice(displayValue) {
-    // Limpiar: solo números
     let clean = displayValue.replace(/\D/g, '');
     
-    // Convertir a número entero
     let number = parseInt(clean || '0', 10);
 
-    // Si es NaN o vacío, usar 0
     if (isNaN(number)) {
         number = 0;
     }
 
-    // Actualizar campo oculto
     document.getElementById('price').value = number;
 
-    // Formatear visual: 14200 → 14.200
     if (number === 0 && clean === '') {
         document.getElementById('price_display').value = '';
     } else {
@@ -169,7 +158,6 @@ function formatAndSetPrice(displayValue) {
     }
 }
 
-// Aplicar formato al cargar
 document.addEventListener('DOMContentLoaded', () => {
     const display = document.getElementById('price_display');
     const hidden = document.getElementById('price');

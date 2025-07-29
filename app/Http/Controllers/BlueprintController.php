@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\WhatsAppPurchaseNotification;
 use App\Mail\FreeDownloadNotification;
 use App\Mail\FreeDownloadOwnerNotification; 
+use App\Models\Solicitud;
 
 class BlueprintController extends Controller
 {
@@ -47,15 +48,17 @@ class BlueprintController extends Controller
     ]);
 
     $file = $request->file('file');
-    $filePath = $file->store('blueprints', 'public');
+    
+    $originalName = $file->getClientOriginalName();
+    $filePath = $file->storeAs('blueprints', $originalName, 'public');
 
     Auth::user()->blueprints()->create([
         'title' => $request->title,
         'description' => $request->description,
-        'price' => $request->price, // ya es entero: 14200
+        'price' => $request->price, 
         'is_public' => $request->is_public,
         'whatsapp_number' => $request->whatsapp_number,
-        'file_path' => $filePath,
+        'file_path' => $filePath, 
         'file_size' => $file->getSize(),
     ]);
 
@@ -85,7 +88,6 @@ public function update(Request $request, Blueprint $blueprint)
         abort(403);
     }
 
-    // Validación: NO incluyas 'is_public' aquí
     $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
@@ -94,21 +96,18 @@ public function update(Request $request, Blueprint $blueprint)
         'file' => 'nullable|file|mimes:pdf,dwg,dxf,jpg,jpeg,png|max:10240',
     ]);
 
-    // Preparar datos
     $data = $request->only(['title', 'description', 'price', 'whatsapp_number']);
     
-    // ✅ ASIGNACIÓN SEGURA: true si está marcado, false si no
     $data['is_public'] = $request->has('is_public');
 
-    // Manejo de archivo nuevo
     if ($request->hasFile('file')) {
         Storage::disk('public')->delete($blueprint->file_path);
         $file = $request->file('file');
-        $data['file_path'] = $file->store('blueprints', 'public');
+        $originalName = $file->getClientOriginalName();
+        $data['file_path'] = $file->storeAs('blueprints', $originalName, 'public');
         $data['file_size'] = $file->getSize();
     }
 
-    // Actualizar
     $blueprint->update($data);
 
     return redirect()->route('blueprints.index')->with('success', 'Plano actualizado exitosamente.');
@@ -182,7 +181,6 @@ public function update(Request $request, Blueprint $blueprint)
                 new FreeDownloadNotification($blueprint, $downloaderData)
             );
 
-            // ✅ CORREGIDO: Notificar al propietario del plano
             Mail::to($blueprint->user->email)->send(
                 new FreeDownloadOwnerNotification($blueprint, $downloaderData)
             );
@@ -199,11 +197,10 @@ public function update(Request $request, Blueprint $blueprint)
     /**
      */
     /**
- * Muestra un plano al público
+ * 
  */
     public function publicShow(Blueprint $blueprint)
     {
-        // Solo visible si es público
         if (!$blueprint->is_public) {
             abort(404);
         }
@@ -213,43 +210,70 @@ public function update(Request $request, Blueprint $blueprint)
 
     /**
      */
-    public function publicIndex()
-    {
-        $blueprints = Blueprint::where('is_public', true)
-            ->with('user')
-            ->latest()
-            ->paginate(12);
+   // 
 
+   public function publicIndex(Request $request)
+    {
+        // Obtener el término de búsqueda del request
+        $searchTerm = $request->input('search');
+        
+        \Log::info('Búsqueda solicitada', ['termino' => $searchTerm]); // Para depurar
+
+        // Comenzar la consulta para planos públicos
+        $query = Blueprint::where('is_public', true)->with('user')->latest();
+
+        // Si hay un término de búsqueda, aplicar el filtro de forma EXACTA
+        // Usamos whereRaw para tener control total y evitar problemas con orWhere
+        if ($searchTerm) {
+            $searchTerm = trim($searchTerm); // Eliminar espacios innecesarios
+            // Buscar en título o descripción. Ambas condiciones deben cumplirse DENTRO del AND principal.
+            $query->where(function($subQuery) use ($searchTerm) {
+                $subQuery->where('title', 'LIKE', '%' . $searchTerm . '%')
+                         ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+            });
+            
+            \Log::info('Consulta SQL generada', ['sql' => $query->toSql(), 'bindings' => $query->getBindings()]); // Para depurar
+        }
+
+        // Ejecutar la consulta con paginación (6 por página)
+        $blueprints = $query->paginate(6);
+
+        // Pasar los resultados a la vista
         return view('blueprints.public_index', compact('blueprints'));
     }
  /**
- * Descargar plano gratuito directamente
  */
 public function downloadFree(Blueprint $blueprint)
 {
-    // ✅ Verificar que sea gratuito
     if ($blueprint->price > 0) {
         abort(403, 'Este plano no es gratuito');
     }
 
-    // ✅ Verificar que sea público
     if (!$blueprint->is_public) {
         abort(404);
     }
-
-    // ✅ Ruta física del archivo
-    $filePath = storage_path('app/' . $blueprint->file_path);
-
-    if (!file_exists($filePath)) {
+ try {
+        Solicitud::create([
+            'blueprint_id' => $blueprint->id,
+            'tipo_solicitud' => 'descarga_gratuita',
+            'nombre_solicitante' => 'Usuario Anónimo (Descarga Directa)', 
+            'email_solicitante' => null, 
+            'telefono_solicitante' => null, 
+            'mensaje' => 'Descarga directa desde la página pública del plano.',
+            'ip_address' => request()->ip(), 
+        ]);
+        \Log::info('Solicitud de descarga gratuita registrada desde descarga directa', ['blueprint_id' => $blueprint->id]);
+    } catch (\Exception $e) {
+        \Log::error('Error al registrar solicitud de descarga gratuita desde descarga directa: ' . $e->getMessage());
+    }
+    if (!Storage::disk('public')->exists($blueprint->file_path)) {
         abort(404, 'Archivo no encontrado');
     }
 
-    // ✅ Descargar con nombre original
+   
     $fileName = basename($blueprint->file_path);
 
-    return response()->download($filePath, $fileName, [
-        'Content-Type' => 'application/octet-stream',
-        'Content-Disposition' => 'attachment; filename="' . $fileName . '"'
-    ]);
+    return Storage::disk('public')->download($blueprint->file_path, $fileName);
 }
+
 }
