@@ -29,18 +29,18 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        // Manejar la subida del avatar
+        
         if ($request->hasFile('avatar')) {
-            // Eliminar avatar anterior si existe
+            
             if ($user->avatar_path) {
                 Storage::delete($user->avatar_path);
             }
-            // Guardar el nuevo avatar
+            
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
             $user->avatar_path = $avatarPath;
         }
 
-        // Actualizar otros campos
+       
         $user->fill($request->validated());
 
         if ($user->isDirty('email')) {

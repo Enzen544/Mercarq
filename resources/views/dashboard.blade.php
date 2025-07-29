@@ -1,5 +1,8 @@
 {{-- resources/views/dashboard.blade.php --}}
 <x-app-layout>
+   @push('title')
+DASHBOARD - 
+@endpush
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Panel de Control') }}
@@ -17,7 +20,7 @@
                 <div class="p-6 text-gray-900">
                     <div class="text-center mb-8">
                         <h1 class="text-3xl font-bold text-gray-800 mb-2">¡Bienvenido, {{ Auth::user()->name }}!</h1>
-                        <p class="text-gray-600">Gestiona tu experiencia en Merqark desde aquí.</p>
+                        <p class="text-gray-600">Gestiona tu experiencia en MERCARQ desde aquí.</p>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
@@ -71,7 +74,7 @@
                                     </svg>
                                 </div>
                                 <h3 class="text-lg font-medium text-gray-800 mb-2">Historial de Compras</h3>
-                                <p class="text-gray-600 text-sm mb-4">Revisa tus transacciones y métodos de pago.</p>
+                                <p class="text-gray-600 text-sm mb-4">Revisa el numero de personas que han estado interesadas en tus planos</p>
                                 <a href="{{ route('purchases.index') }}" class="text-orange-600 hover:text-orange-800 text-sm font-medium inline-flex items-center">
                                     Ver Historial
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -89,7 +92,7 @@
                                     </svg>
                                 </div>
                                 <h3 class="text-lg font-medium text-gray-800 mb-2">Invitar Usuario</h3>
-                                <p class="text-gray-600 text-sm mb-4">Registra a un nuevo miembro del equipo.</p>
+                                <p class="text-gray-600 text-sm mb-4">Registra a un nuevo miembro en el equipo.</p>
                                 <a href="{{ route('invite.user.form') }}" class="text-orange-600 hover:text-orange-800 text-sm font-medium inline-flex items-center">
                                     Invitar Ahora
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -102,7 +105,7 @@
 
                     <div class="mt-10 text-center">
                         <p class="text-gray-500 text-sm">
-                            ¿Necesitas ayuda? <a href="#" class="text-orange-600 hover:underline">Contacta con soporte</a>.
+                            ¿Necesitas ayuda? <a href="#" class="text-orange-600 hover:underline">Visualiza los manuales</a>.
                         </p>
                     </div>
                 </div>

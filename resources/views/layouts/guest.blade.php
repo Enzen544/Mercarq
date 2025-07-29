@@ -15,8 +15,12 @@
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             {{-- Logo/Nombre eliminado o reemplazado --}}
-            <div class="text-center mb-4">
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-700 bg-clip-text text-transparent">MERQARK</h1>
+           <div class="text-center mb-4">
+                <h1 class="text-3xl font-bold">
+                    <a href="{{ route('home') }}" class="bg-gradient-to-r from-orange-500 to-orange-700 bg-clip-text text-transparent hover:underline">
+                        MerCarq
+                    </a>
+                </h1>
                 <p class="text-xs text-gray-500 mt-1">Planos Arquitectónicos</p>
             </div>
 

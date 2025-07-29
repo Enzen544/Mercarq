@@ -20,6 +20,7 @@ class Blueprint extends Model
         'price',
         'whatsapp_number',
         'is_public',
+        'interest_count',
     ];
 
     protected $casts = [
@@ -29,7 +30,7 @@ class Blueprint extends Model
     ];
 
     /**
-     * Get the user that owns the blueprint.
+     * 
      */
     public function user(): BelongsTo
     {
@@ -37,7 +38,7 @@ class Blueprint extends Model
     }
 
     /**
-     * Get the purchases for the blueprint.
+     * 
      */
     public function purchases(): HasMany
     {
@@ -45,7 +46,7 @@ class Blueprint extends Model
     }
 
     /**
-     * Scope para obtener solo blueprints públicos
+     * 
      */
     public function scopePublic($query)
     {
@@ -53,7 +54,7 @@ class Blueprint extends Model
     }
 
     /**
-     * Obtener la URL del archivo
+     * 
      */
     public function getFileUrlAttribute()
     {
@@ -61,7 +62,7 @@ class Blueprint extends Model
     }
 
     /**
-     * Obtener el tamaño del archivo formateado
+     * 
      */
     public function getFormattedFileSizeAttribute()
     {

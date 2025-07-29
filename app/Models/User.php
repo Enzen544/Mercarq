@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// Importaciones necesarias
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +18,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * 
      *
      * @var array<int, string>
      */
@@ -31,7 +31,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * 
      *
      * @var array<int, string>
      */
@@ -41,7 +41,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * 
      *
      * @return array<string, string>
      */
@@ -54,7 +54,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Verifica si el usuario es administrador.
+     * 
      *
      * @return bool
      */
@@ -64,7 +64,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
+     * 
      */
     public function username()
     {
@@ -83,10 +83,10 @@ class User extends Authenticatable
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&color=7F9CF5&background=EBF4FF';
     }
 
-    /* --- Relaciones --- */
+  
 
     /**
-     * Get the blueprints for the user.
+     * 
      */
     public function blueprints(): HasMany
     {
@@ -94,7 +94,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the purchases for the user.
+     * 
      */
     public function purchases(): HasMany
     {
@@ -102,7 +102,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the blueprints that are public for this user.
+     * 
      */
     public function publicBlueprints(): HasMany
     {
@@ -110,7 +110,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the total earnings from blueprint sales for this user.
+     * 
      */
     public function getTotalEarningsAttribute(): float
     {

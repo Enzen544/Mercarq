@@ -1,5 +1,9 @@
 {{-- resources/views/blueprints/public_show.blade.php --}}
+
 <x-guest-layout>
+    @push('title')
+CATALOGO - 
+@endpush
     <div class="w-full">
         <div class="bg-white border border-gray-200 shadow-lg rounded-xl overflow-hidden">
             
@@ -87,7 +91,7 @@
 
                        <div class="space-y-4">
                             @if($blueprint->price > 0)
-                                <!-- Botón de compra por WhatsApp (solo para planos de pago) -->
+                               
                                 @php
                                     $whatsappNumber = $blueprint->whatsapp_number;
                                     $cleanNumber = preg_replace('/[^0-9]/', '', $whatsappNumber);
@@ -122,7 +126,6 @@
                                     </div>
                                 </div>
                             @else
-                                <!-- Botón de descarga directa para planos gratuitos -->
                                 <a href="{{ route('blueprints.download-free', $blueprint) }}"
                                     class="w-full flex items-center justify-center px-6 py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors shadow-lg">
                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

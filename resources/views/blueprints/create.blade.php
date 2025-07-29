@@ -1,5 +1,8 @@
 {{-- resources/views/blueprints/create.blade.php --}}
 <x-app-layout>
+    @push('title')
+CREAR PLANOS - 
+@endpush
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Subir Nuevo Plano') }}
@@ -48,17 +51,14 @@
                     <div class="mb-4">
                         <x-input-label for="price_display" :value="__('Precio (COP)')" />
                         <div class="relative">
-                            <!-- Etiqueta $ COP alineada -->
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <span class="text-gray-500 text-sm font-medium">$ COP</span>
                             </div>
-                            <!-- Input visible con buen espaciado -->
                             <input type="text"
                                 id="price_display"
                                 class="block mt-1 w-full pl-16 pr-4 py-3 border-gray-300 focus:border-[#D76040] focus:ring-[#D76040] rounded-lg shadow-sm bg-white text-gray-900 placeholder-gray-500 font-mono"
                                 placeholder="14.200"
                                 oninput="formatAndSetPrice(this.value)">
-                            <!-- Campo oculto que se envía al servidor -->
                             <input type="hidden" name="price" id="price" value="0">
                         </div>
                         <x-input-error :messages="$errors->get('price')" class="mt-2" />
@@ -138,21 +138,16 @@
                     </form>
                     <script>
                         function formatAndSetPrice(displayValue) {
-                            // Limpiar: solo números
                             let clean = displayValue.replace(/\D/g, '');
                             
-                            // Convertir a número
                             let number = parseInt(clean || '0', 10);
 
-                            // Si está vacío, guardar 0
                             if (isNaN(number) || clean === '') {
                                 number = 0;
                             }
 
-                            // Actualizar campo oculto
                             document.getElementById('price').value = number;
 
-                            // Formatear visual: 14200 → 14.200
                             if (number === 0 && clean === '') {
                                 document.getElementById('price_display').value = '';
                             } else {
@@ -160,12 +155,10 @@
                             }
                         }
 
-                        // Aplicar formato al cargar
                         document.addEventListener('DOMContentLoaded', () => {
                             const display = document.getElementById('price_display');
                             const hidden = document.getElementById('price');
                             
-                            // Si hay valor guardado (old), formatearlo
                             if (hidden.value > 0) {
                                 display.value = parseInt(hidden.value).toLocaleString('es-CO');
                             } else {
