@@ -1,7 +1,6 @@
 {{-- resources/views/auth/login.blade.php --}}
 <x-guest-layout>
-    <div class="w-full"> {{-- Contenedor para ancho completo dentro del slot --}}
-        <!-- Session Status -->
+    <div class="w-full">
         @if (session('status'))
             <div class="mb-4 text-sm font-medium text-green-600 bg-green-50 p-3 rounded-md">
                 {{ session('status') }}
@@ -10,23 +9,31 @@
 
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <form method="POST" action="{{ route('login') }}" class="space-y-4"> {{-- Reducido space-y --}}
+        <form method="POST" action="{{ route('login') }}" class="space-y-4">
             @csrf
 
             <div class="text-center mb-6">
-                 <div class="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-orange-500 to-orange-700 flex items-center justify-center shadow-lg shadow-orange-500/30 mb-4">
-                    <svg class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-800">Inicia Sesión en Merqark</h2> {{-- Cambiado a gris para mejor contraste en fondo blanco --}}
+                {{-- Enlace en el icono del candado --}}
+                <a href="{{ route('home') }}" class="inline-block">
+                    <div class="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-orange-500 to-orange-700 flex items-center justify-center shadow-lg shadow-orange-500/30 mb-4 hover:shadow-orange-500/50 transition-shadow duration-300">
+                        <svg class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                </a>
+                
+                {{-- Enlace en el texto de Merqark --}}
+                <h2 class="text-2xl font-bold text-gray-800">
+                    Inicia Sesión en <a href="{{ route('home') }}" class="text-orange-600 hover:text-orange-700 transition-colors duration-300">Merqark</a>
+                </h2>
+                
                 <p class="text-sm text-orange-600 mt-1">¿Eres parte del equipo?</p>
                 <p class="text-xs text-gray-500 italic">Accede para gestionar proyectos y planos.</p>
             </div>
 
             <!-- Email Address -->
             <div>
-                <x-input-label for="email" :value="__('Email')" class="text-orange-700 font-medium" /> {{-- Ajustado color --}}
+                <x-input-label for="email" :value="__('Email')" class="text-orange-700 font-medium" />
                 <div class="mt-1 relative rounded-md shadow-sm">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="h-5 w-5 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
@@ -36,7 +43,7 @@
                     </div>
                     <x-text-input id="email" class="block mt-1 w-full pl-10 border-gray-300 focus:border-orange-500 focus:ring-orange-500 rounded-md shadow-sm" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="tu@email.com" />
                 </div>
-                <x-input-error :messages="$errors->get('email')" class="mt-2 text-orange-600" /> {{-- Ajustado color --}}
+                <x-input-error :messages="$errors->get('email')" class="mt-2 text-orange-600" />
             </div>
 
             <!-- Password -->
