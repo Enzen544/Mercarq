@@ -14,46 +14,53 @@ use App\Mail\FreeDownloadOwnerNotification;
 
 class BlueprintController extends Controller
 {
-    public function index()
-    {
-        // Obtener solo los planos del usuario autenticado
-        $blueprints = Auth::user()->blueprints()->latest()->paginate(9);
-
-        return view('blueprints.index', compact('blueprints'));
+   public function index()
+{
+    $user = Auth::user();
+    
+    if (!$user) {
+        abort(403, 'Acceso no autorizado. Debes iniciar sesión.');
     }
 
+    $blueprints = $user->blueprints()->latest()->paginate(9);
+
+    \Log::info('Mostrando planos para el usuario: ' . $user->id, ['count' => $blueprints->total()]);
+
+    return view('blueprints.index', compact('blueprints'));
+
+}
     public function create()
     {
         return view('blueprints.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'is_public' => 'required|boolean',
-            'whatsapp_number' => 'required|string|max:20',
-            'file' => 'required|file|mimes:pdf,dwg,dxf,jpg,jpeg,png|max:10240', 
-            'terms' => 'required|accepted',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'required|integer|min:0',
+        'is_public' => 'required|boolean',
+        'whatsapp_number' => 'required|string|max:20',
+        'file' => 'required|file|mimes:pdf,dwg,dxf,jpg,jpeg,png|max:10240',
+        'terms' => 'required|accepted',
+    ]);
 
-        $file = $request->file('file');
-        $filePath = $file->store('blueprints', 'public');
+    $file = $request->file('file');
+    $filePath = $file->store('blueprints', 'public');
 
-        Auth::user()->blueprints()->create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'is_public' => $request->is_public,
-            'whatsapp_number' => $request->whatsapp_number,
-            'file_path' => $filePath,
-            'file_size' => $file->getSize(),
-        ]);
+    Auth::user()->blueprints()->create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'price' => $request->price, // ya es entero: 14200
+        'is_public' => $request->is_public,
+        'whatsapp_number' => $request->whatsapp_number,
+        'file_path' => $filePath,
+        'file_size' => $file->getSize(),
+    ]);
 
-        return redirect()->route('blueprints.index')->with('success', 'Plano subido exitosamente.');
-    }
+    return redirect()->route('blueprints.index')->with('success', 'Plano subido exitosamente.');
+}
 
     public function show(Blueprint $blueprint)
     {
@@ -72,35 +79,40 @@ class BlueprintController extends Controller
         return view('blueprints.edit', compact('blueprint'));
     }
 
-    public function update(Request $request, Blueprint $blueprint)
-    {
-        if ($blueprint->user_id !== Auth::id()) {
-            abort(403);
-        }
-
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'is_public' => 'required|boolean',
-            'whatsapp_number' => 'required|string|max:20',
-            'file' => 'nullable|file|mimes:pdf,dwg,dxf,jpg,jpeg,png|max:10240',
-        ]);
-
-        $data = $request->only(['title', 'description', 'price', 'is_public', 'whatsapp_number']);
-
-        if ($request->hasFile('file')) {
-            Storage::disk('public')->delete($blueprint->file_path);
-            
-            $file = $request->file('file');
-            $data['file_path'] = $file->store('blueprints', 'public');
-            $data['file_size'] = $file->getSize();
-        }
-
-        $blueprint->update($data);
-
-        return redirect()->route('blueprints.index')->with('success', 'Plano actualizado exitosamente.');
+public function update(Request $request, Blueprint $blueprint)
+{
+    if ($blueprint->user_id !== Auth::id()) {
+        abort(403);
     }
+
+    // Validación: NO incluyas 'is_public' aquí
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'required|integer|min:0',
+        'whatsapp_number' => 'required|string|max:20',
+        'file' => 'nullable|file|mimes:pdf,dwg,dxf,jpg,jpeg,png|max:10240',
+    ]);
+
+    // Preparar datos
+    $data = $request->only(['title', 'description', 'price', 'whatsapp_number']);
+    
+    // ✅ ASIGNACIÓN SEGURA: true si está marcado, false si no
+    $data['is_public'] = $request->has('is_public');
+
+    // Manejo de archivo nuevo
+    if ($request->hasFile('file')) {
+        Storage::disk('public')->delete($blueprint->file_path);
+        $file = $request->file('file');
+        $data['file_path'] = $file->store('blueprints', 'public');
+        $data['file_size'] = $file->getSize();
+    }
+
+    // Actualizar
+    $blueprint->update($data);
+
+    return redirect()->route('blueprints.index')->with('success', 'Plano actualizado exitosamente.');
+}
 
     public function destroy(Blueprint $blueprint)
     {
@@ -186,14 +198,18 @@ class BlueprintController extends Controller
 
     /**
      */
+    /**
+ * Muestra un plano al público
+ */
     public function publicShow(Blueprint $blueprint)
     {
+        // Solo visible si es público
         if (!$blueprint->is_public) {
             abort(404);
         }
 
-        return view('blueprints.public_show', compact('blueprint'));
-    }
+    return view('blueprints.public_show', compact('blueprint'));
+}
 
     /**
      */
@@ -206,4 +222,34 @@ class BlueprintController extends Controller
 
         return view('blueprints.public_index', compact('blueprints'));
     }
+ /**
+ * Descargar plano gratuito directamente
+ */
+public function downloadFree(Blueprint $blueprint)
+{
+    // ✅ Verificar que sea gratuito
+    if ($blueprint->price > 0) {
+        abort(403, 'Este plano no es gratuito');
+    }
+
+    // ✅ Verificar que sea público
+    if (!$blueprint->is_public) {
+        abort(404);
+    }
+
+    // ✅ Ruta física del archivo
+    $filePath = storage_path('app/' . $blueprint->file_path);
+
+    if (!file_exists($filePath)) {
+        abort(404, 'Archivo no encontrado');
+    }
+
+    // ✅ Descargar con nombre original
+    $fileName = basename($blueprint->file_path);
+
+    return response()->download($filePath, $fileName, [
+        'Content-Type' => 'application/octet-stream',
+        'Content-Disposition' => 'attachment; filename="' . $fileName . '"'
+    ]);
+}
 }

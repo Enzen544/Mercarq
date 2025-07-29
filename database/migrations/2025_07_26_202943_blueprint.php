@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('file_path'); 
-            $table->decimal('price', 10, 2)->default(0); 
+            $table->integer('price')->default(0);
             $table->string('whatsapp_number', 20); 
             $table->bigInteger('file_size')->nullable();
             $table->boolean('is_public')->default(false); 
@@ -28,8 +28,10 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+   public function down(): void
     {
-        Schema::dropIfExists('blueprints'); 
+        Schema::table('blueprints', function (Blueprint $table) {
+            $table->decimal('price', 10, 2)->default(0)->change();
+        });
     }
 };
