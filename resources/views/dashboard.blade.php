@@ -105,8 +105,7 @@ DASHBOARD -
 
                     <div class="mt-10 text-center">
                         <p class="text-gray-500 text-sm">
-                            ¿Necesitas ayuda? <a href="#" class="text-orange-600 hover:underline">Visualiza los manuales</a>.
-                        </p>
+                    ¿Necesitas ayuda? <a href="{{ route('manuals.index') }}" class="text-orange-600 hover:underline" target="_blank">Visualiza los manuales</a>.                        </p>
                     </div>
                 </div>
             </div>

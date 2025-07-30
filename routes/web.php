@@ -24,6 +24,10 @@ Route::get('/planos/{blueprint}/descargar', [
     'downloadFree'
 ])->name('blueprints.download-free');
 
+Route::get('/manuales', function () {
+    return view('manuals.index');
+})->name('manuals.index');
+
 Route::post('/planos/{blueprint}/comprar-whatsapp', [BlueprintController::class, 'whatsappPurchase'])->name('blueprints.whatsapp-purchase');
 Route::post('/planos/{blueprint}/descarga-gratuita', [BlueprintController::class, 'freeDownload'])->name('blueprints.free-download');
 
