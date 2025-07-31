@@ -1,9 +1,9 @@
 <?php
 
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,48 +15,66 @@ use Illuminate\View\View;
 
 class NewPasswordController extends Controller
 {
+   
+
     /**
-     * Display the password reset view.
+     * 
+     * 
+     * @return \Illuminate\View\View
      */
-    public function create(Request $request): View
+    public function showSimpleResetForm(Request $request): View|RedirectResponse 
     {
-        return view('auth.reset-password', ['request' => $request]);
+        $email = session('simple_reset_email');
+
+        if (!$email) {
+             return redirect()->route('password.request');
+        }
+
+        return view('auth.simple-reset-password', ['email' => $email]);
     }
 
     /**
-     * Handle an incoming new password request.
+     * 
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function processSimpleReset(Request $request): RedirectResponse
     {
+        $email = session('simple_reset_email');
+
+        if (!$email) {
+            return redirect()->route('password.request')->withErrors(['email' => 'La sesión ha expirado. Por favor, intenta nuevamente.']);
+        }
+
         $request->validate([
-            'token' => ['required'],
-            'email' => ['required', 'email'],
+           
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+           
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
         ]);
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user) use ($request) {
-                $user->forceFill([
-                    'password' => Hash::make($request->password),
-                    'remember_token' => Str::random(60),
-                ])->save();
+        $user = \App\Models\User::where('email', $email)->first();
 
-                event(new PasswordReset($user));
-            }
-        );
+        if (!$user) {
+            session()->forget('simple_reset_email'); 
+            return redirect()->route('password.request')->withErrors(['email' => 'Usuario no encontrado.']);
+        }
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
-        return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                        ->withErrors(['email' => __($status)]);
+        $user->forceFill([
+            'password' => Hash::make($request->password),
+            'remember_token' => Str::random(60),
+        ])->save();
+
+        event(new PasswordReset($user));
+
+        session()->forget('simple_reset_email');
+
+        return redirect()->route('login')->with('status', '¡Tu contraseña ha sido cambiada exitosamente! Ahora puedes iniciar sesión con tu nueva contraseña.');
     }
 }

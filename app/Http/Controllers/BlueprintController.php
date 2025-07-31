@@ -214,31 +214,28 @@ public function update(Request $request, Blueprint $blueprint)
 
    public function publicIndex(Request $request)
     {
-        // Obtener el término de búsqueda del request
         $searchTerm = $request->input('search');
         
-        \Log::info('Búsqueda solicitada', ['termino' => $searchTerm]); // Para depurar
+        \Log::info('Búsqueda solicitada', ['termino' => $searchTerm]); 
 
-        // Comenzar la consulta para planos públicos
         $query = Blueprint::where('is_public', true)->with('user')->latest();
 
-        // Si hay un término de búsqueda, aplicar el filtro de forma EXACTA
-        // Usamos whereRaw para tener control total y evitar problemas con orWhere
+       
         if ($searchTerm) {
-            $searchTerm = trim($searchTerm); // Eliminar espacios innecesarios
-            // Buscar en título o descripción. Ambas condiciones deben cumplirse DENTRO del AND principal.
+            $searchTerm = trim($searchTerm); 
+            
             $query->where(function($subQuery) use ($searchTerm) {
                 $subQuery->where('title', 'LIKE', '%' . $searchTerm . '%')
                          ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
             });
             
-            \Log::info('Consulta SQL generada', ['sql' => $query->toSql(), 'bindings' => $query->getBindings()]); // Para depurar
+            \Log::info('Consulta SQL generada', ['sql' => $query->toSql(), 'bindings' => $query->getBindings()]); 
         }
 
-        // Ejecutar la consulta con paginación (6 por página)
+        
         $blueprints = $query->paginate(6);
 
-        // Pasar los resultados a la vista
+        
         return view('blueprints.public_index', compact('blueprints'));
     }
  /**

@@ -73,10 +73,16 @@ EDITAR PLANOS -
                 <div class="mb-6">
                     <label for="whatsapp_number" class="block text-sm font-medium text-gray-700 mb-1">Número de WhatsApp (solo dígitos)</label>
                     <input type="text" name="whatsapp_number" id="whatsapp_number"
-                           value="{{ old('whatsapp_number', $blueprint->whatsapp_number) }}"
-                           class="w-full px-4 py-3 border border-[#C69A7D] rounded-lg shadow-sm focus:ring-[#D76040] focus:border-[#D76040] bg-white text-gray-900 placeholder-gray-500"
-                           placeholder="3123456789"
-                           required>
+                        value="{{ old('whatsapp_number', $blueprint->whatsapp_number) }}"
+                        class="w-full px-4 py-3 border border-[#C69A7D] rounded-lg shadow-sm focus:ring-[#D76040] focus:border-[#D76040] bg-white text-gray-900 placeholder-gray-500"
+                        placeholder="3123456789"
+                        required
+                        inputmode="numeric" 
+                        pattern="[0-9]{10}"   
+                        title="Ingresa un número de teléfono móvil colombiano de 10 dígitos (ej: 3123456789)"
+                        maxlength="10"        
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" 
+                    >
                     @error('whatsapp_number')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
