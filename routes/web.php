@@ -5,7 +5,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BlueprintController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\InvitationController;
+
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL; 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -30,6 +32,7 @@ Route::get('/manuales', function () {
 
 Route::post('/planos/{blueprint}/comprar-whatsapp', [BlueprintController::class, 'whatsappPurchase'])->name('blueprints.whatsapp-purchase');
 Route::post('/planos/{blueprint}/descarga-gratuita', [BlueprintController::class, 'freeDownload'])->name('blueprints.free-download');
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {

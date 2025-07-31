@@ -66,18 +66,31 @@ CREAR PLANOS -
                     </div>
 
                         <div class="mb-4">
-                            <x-input-label for="whatsapp_number" :value="__('Número de WhatsApp')" />
-                            <div class="mt-1 flex rounded-md shadow-sm">
-                                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                                    +57
-                                </span>
-                                <x-text-input id="whatsapp_number" class="flex-1 rounded-none rounded-r-md" type="text" name="whatsapp_number" :value="old('whatsapp_number')" placeholder="3001234567" required />
-                            </div>
-                            <x-input-error :messages="$errors->get('whatsapp_number')" class="mt-2" />
-                            <p class="mt-1 text-sm text-gray-500">
-                                <span class="font-medium">Importante:</span> Los compradores te contactarán por este número para coordinar la compra
-                            </p>
-                        </div>
+    <x-input-label for="whatsapp_number" :value="__('Número de WhatsApp')" />
+    <div class="mt-1 flex rounded-md shadow-sm">
+        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+            +57
+        </span>
+        <x-text-input 
+            id="whatsapp_number" 
+            class="flex-1 rounded-none rounded-r-md" 
+            type="text" 
+            name="whatsapp_number" 
+            :value="old('whatsapp_number')" 
+            placeholder="3001234567" 
+            required
+            inputmode="numeric" {{-- Sugiere teclado numérico --}}
+            pattern="[0-9]{10}"   {{-- Requiere exactamente 10 dígitos --}}
+            title="Ingresa un número de teléfono móvil colombiano de 10 dígitos (ej: 3001234567)"
+            maxlength="10"        {{-- Limita a 10 caracteres --}}
+            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" {{-- Limpia y limita --}}
+        />
+    </div>
+    <x-input-error :messages="$errors->get('whatsapp_number')" class="mt-2" />
+    <p class="mt-1 text-sm text-gray-500">
+        <span class="font-medium">Importante:</span> Los compradores te contactarán por este número. Ingresa solo los 10 dígitos.
+    </p>
+</div>
 
                         <div class="mb-4">
                             <x-input-label for="is_public" :value="__('Visibilidad')" />

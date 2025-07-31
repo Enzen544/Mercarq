@@ -28,11 +28,23 @@ Route::middleware('guest')->group(function () {
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
 
+ Route::get('/set-new-password', function () {
+        $email = session('reset_email_for_new_password');
+        if (!$email) {
+            return redirect()->route('password.request'); 
+        }
+        return view('auth.set-new-password', ['email' => $email]);
+    })->name('password.set-new.form'); 
+
+    Route::post('/set-new-password', [PasswordResetLinkController::class, 'updatePassword'])
+        ->name('password.set-new'); 
+
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
-        ->name('password.store');
+        ->name('password.update'); 
+ 
 });
 
 Route::middleware('auth')->group(function () {
