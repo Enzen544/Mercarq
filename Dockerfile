@@ -20,12 +20,8 @@ RUN apt-get update && apt-get install -y \
     git \
     && docker-php-ext-install pdo pdo_mysql
 
-# Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Nota: no copiamos archivos aquí porque los montaremos como volumen
-
-# Permisos recomendados
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html

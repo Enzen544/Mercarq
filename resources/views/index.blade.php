@@ -59,7 +59,7 @@
     <button @click="toggleTheme" id="theme-toggle" type="button"
         class="text-[#C69A7D] hover:bg-[#EEC6BA] focus:outline-none focus:ring-2 focus:ring-[#D76040]/30 rounded-lg text-sm p-2">
     </button>
-    
+
     <a href="{{ asset('downloads/MANUAL DEL CLIENTE.pdf') }}" download="Manual_Cliente_Mercarq.pdf"
         class="flex items-center px-3 py-2 text-sm rounded-md border border-[#C69A7D] text-[#C69A7D] hover:bg-[#C69A7D] hover:text-white hover:border-[#C69A7D] transition duration-150 font-medium"
         title="Descargar Manual del Cliente">
@@ -70,7 +70,7 @@
         </svg>
         Manual
     </a>
-    
+
     @if (Route::has('login'))
         @auth
             <a href="{{ url('/dashboard') }}"
@@ -88,8 +88,8 @@
     </div>
 </header>
 
-   <section
-  
+    <section
+
     class="min-h-screen flex items-center justify-center text-center px-4 bg-gradient-to-br from-[#F0E2D5] via-[#EEC6BA] to-[#E4E4E5] relative overflow-hidden">
     <div class="absolute inset-0 z-0 opacity-20">
         <div
@@ -124,7 +124,7 @@
     </div>
 </section>
 
-   <section id="features" class="py-20 bg-[#F0E2D5]">
+    <section id="features" class="py-20 bg-[#F0E2D5]">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16 relative inline-block">
             <h2 class="text-3xl md:text-4xl font-bold text-[#D76040] relative z-10">
@@ -162,7 +162,8 @@
         </div>
     </div>
 </section>
-<section id="plans" class="py-20 bg-gradient-to-b from-[#F0E2D5] to-[#EEC6BA]">
+
+    <section id="plans" class="py-20 bg-gradient-to-b from-[#F0E2D5] to-[#EEC6BA]">
     <div class="container mx-auto px-4">
         <div class="text-center mb-4 relative inline-block">
             <h2 class="text-3xl md:text-4xl font-bold text-[#D76040] relative z-10">
@@ -170,7 +171,7 @@
             </h2>
             <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-[#D76040] to-[#C69A7D] rounded-full"></div>
         </div>
-        <p class="text-center text-[#5C4033] mb-12 text-lg">Descubre las últimas creaciones de nuestra comunidad.</p>
+        <p class="text-center text-[#5C4033] mb-12 text-lg" style="margin-top: 20px">Descubre las últimas creaciones de nuestra comunidad.</p>
 
         <div x-data="{
             plans: @js($latestBlueprints ?? []),
@@ -266,7 +267,7 @@
                 return 'document';
             }
         }" class="relative px-10 md:px-16">
-            
+
             <template x-if="!plans || plans.length === 0">
                 <div class="text-center py-10 text-gray-500">
                     <svg class="w-16 h-16 mx-auto text-[#D76040]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -275,19 +276,19 @@
                     <p class="mt-4 text-lg text-[#5C4033]">No hay planos disponibles aún. ¡Vuelve pronto!</p>
                 </div>
             </template>
-            
+
             <template x-if="plans && plans.length > 0">
                 <div class="overflow-hidden">
                     <div class="flex transition-transform duration-500 ease-in-out" :style="`transform: translateX(-${currentIndex * 33.333}%)`">
                         <template x-for="plan in plans" :key="plan.id || plan.title">
                             <div class="flex-shrink-0 w-full md:w-1/3 px-3">
                                 <div class="bg-white/95 rounded-xl overflow-hidden shadow-lg border border-[#C69A7D]/50 hover:border-[#D76040] transition-all duration-300 h-full flex flex-col transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#D76040]/20">
-                                    
+
                                     <div class="relative h-52 overflow-hidden bg-gradient-to-br from-[#EEC6BA] to-[#C69A7D] cursor-pointer group" @click="openPreview(plan)">
                                         <template x-if="plan.file_path && ['jpg', 'jpeg', 'png', 'gif'].includes((plan.file_path.split('.').pop() || '').toLowerCase())">
                                             <img :src="`/storage/${plan.file_path}`" :alt="plan.title" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
                                         </template>
-                                        
+
                                         <template x-if="plan.file_path && (plan.file_path.split('.').pop() || '').toLowerCase() === 'pdf'">
                                             <div class="w-full h-full flex items-center justify-center relative">
                                                 <div class="w-32 h-40 bg-white shadow-lg rounded border-2 border-gray-200 flex flex-col relative transform rotate-3 group-hover:rotate-0 transition-transform duration-300">
@@ -310,7 +311,7 @@
                                                 </svg>
                                             </div>
                                         </template>
-                                        
+
                                         <template x-if="plan.file_path && ['dwg', 'dxf'].includes((plan.file_path.split('.').pop() || '').toLowerCase())">
                                             <div class="w-full h-full flex items-center justify-center relative">
                                                 <div class="w-40 h-32 bg-white shadow-lg rounded border-2 border-blue-200 flex items-center justify-center relative group-hover:scale-105 transition-transform duration-300">
@@ -324,7 +325,7 @@
                                                 </svg>
                                             </div>
                                         </template>
-                                        
+
                                         <template x-if="!plan.file_path || !['jpg', 'jpeg', 'png', 'gif', 'pdf', 'dwg', 'dxf'].includes((plan.file_path.split('.').pop() || '').toLowerCase())">
                                             <div class="w-full h-full flex items-center justify-center">
                                                 <svg class="w-16 h-16 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -332,7 +333,7 @@
                                                 </svg>
                                             </div>
                                         </template>
-                                        
+
                                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
                                             <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center">
                                                 <svg class="w-8 h-8 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -342,14 +343,14 @@
                                                 <p class="text-xs font-medium">Vista Previa</p>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                                         <div class="absolute bottom-3 left-3 right-3">
                                             <h3 class="text-lg font-bold text-white drop-shadow-sm" x-text="plan.title || 'Sin título'"></h3>
                                             <p class="text-[#EEC6BA] font-semibold text-sm drop-shadow" x-text="`$${(parseFloat(plan.price) || 0).toLocaleString('es-CO', {minimumFractionDigits: 0, maximumFractionDigits: 0})} COP`"></p>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="p-5 flex-grow flex flex-col">
                                         <p class="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow" x-text="plan.description || 'Sin descripción disponible.'"></p>
                                         <div class="flex justify-between items-center mt-auto">
@@ -372,8 +373,8 @@
                                                     </template>
                                                     <span x-text="getFileType(plan.file_path)"></span>
                                                 </span>
-                                                
-                                                <button @click.stop="openPreview(plan)" 
+
+                                                <button @click.stop="openPreview(plan)"
                                                         class="text-xs px-2.5 py-1 rounded bg-blue-100 text-blue-700 hover:bg-blue-200 transition duration-200 font-medium flex items-center space-x-1">
                                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -382,7 +383,7 @@
                                                     <span>Previsualizar</span>
                                                 </button>
                                             </div>
-                                            
+
                                             <a :href="'/planos/' + (plan.id || '#')"
                                                 class="text-xs px-3 py-1.5 rounded bg-gradient-to-r from-[#D76040] to-[#C69A7D] text-white hover:from-[#C69A7D] hover:to-[#D76040] transition duration-200 font-medium">
                                                 Ver Detalle
@@ -393,7 +394,7 @@
                             </div>
                         </template>
                     </div>
-                    
+
                     <button @click="prev()" :disabled="currentIndex === 0"
                         class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-6 bg-white text-[#D76040] p-3 rounded-full hover:bg-[#D76040] hover:text-white border border-[#C69A7D] shadow-lg transition duration-200 z-10 disabled:opacity-40">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -408,7 +409,7 @@
                     </button>
                 </div>
             </template>
-            
+
             <div x-show="previewModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
                 <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div class="fixed inset-0 bg-black bg-opacity-75 transition-opacity" @click="closePreview()"></div>
@@ -423,7 +424,7 @@
                             </div>
                             <div class="absolute top-0 left-0 h-full bg-white/10 transition-all duration-1000 ease-linear" :style="`width: ${((10 - countdown) / 10) * 100}%`"></div>
                         </div>
-                        
+
                         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="text-lg font-medium text-gray-900" x-text="previewFile?.title || 'Vista previa'"></h3>
@@ -440,7 +441,7 @@
                                         ⏱️ Vista previa limitada - Para acceso completo, adquiere el plano
                                     </p>
                                 </div>
-                                
+
                                 <template x-if="previewFile && previewFile.file_path && ['jpg', 'jpeg', 'png', 'gif'].includes((previewFile.file_path.split('.').pop() || '').toLowerCase())">
                                     <img :src="`/storage/${previewFile.file_path}`" :alt="previewFile.title" class="max-w-full max-h-full object-contain opacity-75">
                                 </template>
@@ -467,7 +468,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div x-show="showPurchaseModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
                 <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
@@ -488,7 +489,7 @@
                                         </svg>
                                     </div>
                                 </template>
-                                
+
                                 <template x-if="previewFile && parseFloat(previewFile.price || 0) === 0">
                                     <div>
                                         <h3 class="text-xl font-bold text-gray-900 mb-2">¡Plano Gratuito! 🎉</h3>
@@ -509,18 +510,18 @@
                                 </template>
                             </div>
                         </div>
-                        
+
                         <div class="bg-gray-50 px-6 py-4 sm:flex sm:flex-row-reverse sm:space-x-reverse sm:space-x-3">
                             <template x-if="previewFile && parseFloat(previewFile.price || 0) === 0">
                                 <div class="sm:flex sm:flex-row-reverse sm:space-x-reverse sm:space-x-3 w-full">
-                                    <button @click="handlePurchase()" 
+                                    <button @click="handlePurchase()"
                                             class="w-full inline-flex justify-center items-center rounded-md border border-transparent shadow-sm px-6 py-3 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors sm:w-auto sm:text-sm">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
                                         </svg>
                                         Descargar Gratis
                                     </button>
-                                    <button @click="closePurchaseModal()" 
+                                    <button @click="closePurchaseModal()"
                                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
                                         Ahora No
                                     </button>
@@ -528,14 +529,14 @@
                             </template>
                             <template x-if="previewFile && parseFloat(previewFile.price || 0) > 0">
                                 <div class="sm:flex sm:flex-row-reverse sm:space-x-reverse sm:space-x-3 w-full">
-                                    <button @click="handlePurchase()" 
+                                    <button @click="handlePurchase()"
                                             class="w-full inline-flex justify-center items-center rounded-md border border-transparent shadow-sm px-6 py-3 bg-gradient-to-r from-[#D76040] to-[#C69A7D] text-base font-medium text-white hover:from-[#C69A7D] hover:to-[#D76040] focus:outline-none focus:ring-2 focus:ring-[#D76040] focus:ring-offset-2 transition-all sm:w-auto sm:text-sm">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                         </svg>
                                         Comprar Plano
                                     </button>
-                                    <button @click="closePurchaseModal()" 
+                                    <button @click="closePurchaseModal()"
                                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
                                         Cerrar
                                     </button>
@@ -555,9 +556,8 @@
         </div>
     </div>
 </section>
-  
 
-   <section class="py-20 bg-[#F0E2D5] border-y border-[#C69A7D]/30">
+    <section class="py-20 bg-[#F0E2D5] border-y border-[#C69A7D]/30">
     <div class="container mx-auto px-4 text-center">
         <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#D76040]">¿Listo para comenzar?</h2>
         <p class="text-xl mb-8 max-w-2xl mx-auto text-[#5C4033]">
@@ -572,7 +572,7 @@
     </div>
 </section>
 
- <footer class="py-8 bg-[#E4E4E5] border-t border-[#C69A7D]/30">
+    <footer class="py-8 bg-[#E4E4E5] border-t border-[#C69A7D]/30">
     <div class="container mx-auto px-4 text-center text-[#5C4033]/80 text-sm">
         <p>&copy; 2025 MERCARQ. Todos los derechos reservados. | Planos Arquitectónicos Premium</p>
     </div>

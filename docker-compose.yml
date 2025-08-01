@@ -20,6 +20,7 @@ services:
       - "3306:3306"
     volumes:
       - dbdata:/var/lib/mysql
+      - ./mysql_custom.cnf:/etc/mysql/conf.d/custom.cnf
 
   vite:
     build:
