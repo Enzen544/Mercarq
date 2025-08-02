@@ -1,48 +1,44 @@
 {{-- resources/views/blueprints/public_index.blade.php --}}
 <x-guest-layout>
     @push('title')
-CATALOGO - 
+CATALOGO -
 @endpush
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <x-breadcrumb :pages="[
-            ['name' => 'Inicio', 'url' => route('home')],
-            ['name' => 'Catálogo de Planos']
-        ]" />
-    </div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12" style="width: 85%">
         <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 sm:mb-8 text-center">Catálogo de Planos Públicos</h1>
 
-       
-        <div class="mb-8 bg-white p-5 sm:p-6 rounded-xl shadow-md border border-[#C69A7D]/30 transition-all duration-300 hover:shadow-lg">
+
+        <div class="w-full mb-8 bg-white p-5 sm:p-6 rounded-xl shadow-md border border-[#C69A7D]/30
+                transition-all duration-300 hover:shadow-lg" style="min-width: 340px">
             <form action="{{ route('blueprints.public.index') }}" method="GET" class="flex flex-col md:flex-row items-center gap-3 sm:gap-4">
                 <div class="w-full">
                     <label for="search" class="block text-sm font-medium text-gray-700 mb-1 sr-only md:not-sr-only">Buscar planos:</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
+                    <div class="flex items-center justify-between">
+                        <div class="w-full relative mr-2">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                            <input type="text" name="search" id="search" value="{{ request('search') }}"
+                                class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-[#D76040] focus:border-[#D76040] shadow-sm transition duration-200"
+                                placeholder="Buscar por nombre o descripción...">
                         </div>
-                        <input type="text" name="search" id="search" value="{{ request('search') }}"
-                            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-[#D76040] focus:border-[#D76040] shadow-sm transition duration-200"
-                            placeholder="Buscar por nombre o descripción...">
+                        <div class="flex space-x-2 w-full md:w-auto">
+                            <button type="submit"
+                                    class="flex-1 md:flex-none px-5 py-2.5 bg-gradient-to-r from-[#D76040] to-[#C69A7D] text-white font-medium rounded-lg hover:from-[#C69A7D] hover:to-[#D76040] transition duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D76040] flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-1.5 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                Buscar
+                            </button>
+                            @if(request('search'))
+                                <a href="{{ route('blueprints.public.index') }}"
+                                   class="flex-1 md:flex-none px-4 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition duration-200 shadow-sm flex items-center justify-center text-sm">
+                                    Limpiar
+                                </a>
+                            @endif
+                        </div>
                     </div>
-                </div>
-                <div class="flex space-x-2 w-full md:w-auto">
-                    <button type="submit"
-                        class="flex-1 md:flex-none px-5 py-2.5 bg-gradient-to-r from-[#D76040] to-[#C69A7D] text-white font-medium rounded-lg hover:from-[#C69A7D] hover:to-[#D76040] transition duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D76040] flex items-center justify-center">
-                        <svg class="w-5 h-5 mr-1.5 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                        Buscar
-                    </button>
-                    @if(request('search'))
-                    <a href="{{ route('blueprints.public.index') }}"
-                        class="flex-1 md:flex-none px-4 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition duration-200 shadow-sm flex items-center justify-center text-sm">
-                        Limpiar
-                    </a>
-                    @endif
                 </div>
             </form>
         </div>
@@ -59,7 +55,7 @@ CATALOGO -
 
         @if($blueprints->count() > 0)
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-                
+
                 @foreach ($blueprints as $blueprint)
                     <div class="bg-white/95 rounded-xl overflow-hidden shadow-lg border border-[#C69A7D]/50 hover:border-[#D76040] transition-all duration-300 h-full flex flex-col transform hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D76040]/10">
                         {{-- Imagen/Preview --}}
@@ -109,17 +105,17 @@ CATALOGO -
                             </div>
                         </div>
 
-                       
+
                         <div class="p-3.5 sm:p-4 flex-grow flex flex-col">
                             <p class="text-gray-600 text-xs sm:text-sm mb-2.5 sm:mb-3 line-clamp-2 flex-grow">{{ $blueprint->description ?? 'Sin descripción disponible.' }}</p>
-                            
+
                             <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-100">
                                 @if($blueprint->price > 0)
                                     <span class="text-base sm:text-lg font-bold text-[#D76040]">${{ number_format($blueprint->price, 0, ',', '.') }} COP</span>
                                 @else
                                     <span class="text-xs sm:text-sm font-bold text-green-600 bg-green-100 px-2 py-1 rounded">GRATIS</span>
                                 @endif
-                                <a href="{{ route('blueprints.public.show', $blueprint) }}" 
+                                <a href="{{ route('blueprints.public.show', $blueprint) }}"
                                    class="text-xs sm:text-sm px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded bg-gradient-to-r from-[#D76040] to-[#C69A7D] text-white hover:from-[#C69A7D] hover:to-[#D76040] transition duration-200 font-medium shadow-sm whitespace-nowrap">
                                     Ver Detalle
                                 </a>

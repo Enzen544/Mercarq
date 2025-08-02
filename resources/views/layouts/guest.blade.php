@@ -12,7 +12,7 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="min-h-screen flex flex-col font-sans text-gray-900 antialiased">
+    <body class="min-h-screen flex flex-col font-sans text-gray-900 antialiased" style="min-width: 405px">
         <header x-data="themeSwitcher"
                 class="bg-white/95 backdrop-blur-sm border-b border-[#C69A7D] sticky top-0 z-50 transition-colors duration-300">
             <div class="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
