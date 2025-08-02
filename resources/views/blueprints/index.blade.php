@@ -1,6 +1,6 @@
 <x-app-layout>
     @push('title')
-MIS PLANOS - 
+MIS PLANOS -
 @endpush
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -47,6 +47,7 @@ MIS PLANOS -
                                                 {{ $blueprint->is_public ? 'Público' : 'Privado' }}
                                             </span>
                                         </div>
+                                        <p class="font-bold text-gray-600 text-sm mb-2">Código de compra: {{ $blueprint->codigo_compra }}</p>
                                         <div class="mt-3 flex space-x-2 text-sm">
                                             <a href="{{ asset('storage/' . $blueprint->file_path) }}"
                                                target="_blank"
@@ -70,7 +71,7 @@ MIS PLANOS -
                             @endforeach
                         </div>
 
-                          
+
                         <div class="mt-6">
                             {{ $blueprints->links() }}
                         </div>
