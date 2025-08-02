@@ -1,7 +1,7 @@
 {{-- resources/views/purchases/index.blade.php --}}
 <x-app-layout>
     @push('title')
-COMPRAS - 
+COMPRAS -
 @endpush
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -9,8 +9,8 @@ COMPRAS -
         </h2>
     </x-slot>
 
-   
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3"> 
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3">
         <x-breadcrumb :pages="[
             ['name' => 'Inicio', 'url' => route('home')],
             ['name' => 'Dashboard', 'url' => route('dashboard')],
@@ -18,8 +18,8 @@ COMPRAS -
         ]" />
     </div>
 
-    
-    <div class="py-8 sm:py-12"> 
+
+    <div class="py-8 sm:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-xl border border-[#C69A7D]/30">
                 <div class="p-5 sm:p-6">
@@ -84,9 +84,9 @@ COMPRAS -
                                                 </div>
                                             </td>
                                             <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600 hidden md:table-cell">
-                                                @if($solicitud->tipo_solicitud === 'whatsapp')
+                                                @if($solicitud->tipo_solicitud === 'descarga_con_codigo')
                                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                        WhatsApp
+                                                        Descarga con Código
                                                     </span>
                                                 @elseif($solicitud->tipo_solicitud === 'descarga_gratuita')
                                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -105,8 +105,8 @@ COMPRAS -
                                                     <div class="text-xs text-gray-500">{{ $solicitud->telefono_solicitante }}</div>
                                                 @endif
                                             </td>
-                                           
-                                            
+
+
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -150,7 +150,7 @@ COMPRAS -
         </div>
     </div>
 
-   
+
     @foreach ($solicitudes as $solicitud)
         <x-modal name="ver-solicitud-{{ $solicitud->id }}" :show="false" focusable>
             <div class="p-6">

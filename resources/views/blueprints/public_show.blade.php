@@ -100,7 +100,8 @@ CATALOGO -
                                         $message = "¡Hola! 👋\nEstoy interesado en comprar el plano:\n📋 *{$blueprint->title}*\n💰 Precio: $" . number_format($blueprint->price, 0, ',', '.') . " COP\n¿Cómo puedo proceder?\nGracias! 🏠";
                                         $whatsappUrl = "https://wa.me/{$cleanNumber}?text=" . urlencode($message);
                                     @endphp
-                                    <a href="{{ $whatsappUrl }}"
+
+                                   <a href="{{ $whatsappUrl }}"
                                     target="_blank"
                                     class="w-full flex items-center justify-center px-6 py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors shadow-lg">
                                         <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
@@ -108,6 +109,22 @@ CATALOGO -
                                         </svg>
                                         Comprar por WhatsApp - ${{ number_format($blueprint->price, 0, ',', '.') }} COP
                                     </a>
+
+                                   <form method="POST" action="{{ route('blueprints.download-pago', $blueprint) }}" class="w-full flex items-center">
+                                       @csrf
+                                       <input type="text" name="codigo" placeholder="Ingresa código de compra..." required
+                                              class="w-full mr-2 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                       <button type="submit" class="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition">
+                                           Descargar
+                                       </button>
+                                   </form>
+                                   @if (session('error'))
+                                       <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 max-w-2xl mx-auto mt-4">
+                                           <strong class="font-bold">¡Error!</strong>
+                                           <span class="block sm:inline">{{ session('error') }}</span>
+                                       </div>
+                                   @endif
+
                                     <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
                                         <div class="flex items-start">
                                             <svg class="w-5 h-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

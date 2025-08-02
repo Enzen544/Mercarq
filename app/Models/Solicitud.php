@@ -9,8 +9,8 @@ class Solicitud extends Model
 {
     use HasFactory;
 
-    
-    protected $table = 'solicitudes'; 
+
+    protected $table = 'solicitudes';
 
     protected $fillable = [
         'blueprint_id',
@@ -20,11 +20,12 @@ class Solicitud extends Model
         'telefono_solicitante',
         'mensaje',
         'ip_address',
+        'codigo_compra'
     ];
 
     public function blueprint()
     {
         return $this->belongsTo(Blueprint::class);
-      
+
     }
 }

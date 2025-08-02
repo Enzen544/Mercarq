@@ -21,6 +21,7 @@ class Blueprint extends Model
         'whatsapp_number',
         'is_public',
         'interest_count',
+        'codigo_compra'
     ];
 
     protected $casts = [
@@ -30,7 +31,7 @@ class Blueprint extends Model
     ];
 
     /**
-     * 
+     *
      */
     public function user(): BelongsTo
     {
@@ -38,7 +39,7 @@ class Blueprint extends Model
     }
 
     /**
-     * 
+     *
      */
     public function purchases(): HasMany
     {
@@ -46,7 +47,7 @@ class Blueprint extends Model
     }
 
     /**
-     * 
+     *
      */
     public function scopePublic($query)
     {
@@ -54,7 +55,7 @@ class Blueprint extends Model
     }
 
     /**
-     * 
+     *
      */
     public function getFileUrlAttribute()
     {
@@ -62,7 +63,7 @@ class Blueprint extends Model
     }
 
     /**
-     * 
+     *
      */
     public function getFormattedFileSizeAttribute()
     {
@@ -72,11 +73,11 @@ class Blueprint extends Model
 
         $bytes = $this->file_size;
         $units = ['B', 'KB', 'MB', 'GB'];
-        
+
         for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
             $bytes /= 1024;
         }
-        
+
         return round($bytes, 2) . ' ' . $units[$i];
     }
 }

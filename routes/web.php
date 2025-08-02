@@ -7,7 +7,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\InvitationController;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL; 
+use Illuminate\Support\Facades\URL;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -21,8 +21,11 @@ Route::get('/planos/{blueprint}', function (\App\Models\Blueprint $blueprint) {
     return view('blueprints.public_show', compact('blueprint'));
 })->name('blueprints.public.show');
 
+Route::post('/planos/{blueprint}/descargar-pago',
+    [BlueprintController::class, 'downloadPago'])->name('blueprints.download-pago');
+
 Route::get('/planos/{blueprint}/descargar', [
-    App\Http\Controllers\BlueprintController::class, 
+    App\Http\Controllers\BlueprintController::class,
     'downloadFree'
 ])->name('blueprints.download-free');
 
