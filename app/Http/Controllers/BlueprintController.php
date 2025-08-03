@@ -220,33 +220,49 @@ public function update(Request $request, Blueprint $blueprint)
      */
    //
 
-   public function publicIndex(Request $request)
+    public function publicIndex(Request $request)
     {
         $searchTerm = $request->input('search');
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+        $userId = $request->input('user_id'); // ID del autor
 
-        \Log::info('Búsqueda solicitada', ['termino' => $searchTerm]);
+        \Log::info('Búsqueda solicitada', [
+            'termino' => $searchTerm,
+            'min_price' => $minPrice,
+            'max_price' => $maxPrice,
+            'user_id' => $userId
+        ]);
 
         $query = Blueprint::where('is_public', true)->with('user')->latest();
 
-
         if ($searchTerm) {
-            $searchTerm = trim($searchTerm);
-
             $query->where(function($subQuery) use ($searchTerm) {
                 $subQuery->where('title', 'LIKE', '%' . $searchTerm . '%')
-                         ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+                    ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
             });
-
-            \Log::info('Consulta SQL generada', ['sql' => $query->toSql(), 'bindings' => $query->getBindings()]);
         }
 
+        if ($minPrice !== null) {
+            $query->where('price', '>=', (float) $minPrice);
+        }
+
+        if ($maxPrice !== null) {
+            $query->where('price', '<=', (float) $maxPrice);
+        }
+
+        // Filtro por usuario (autor del plano)
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
 
         $blueprints = $query->paginate(6);
+        $maxPrice = \App\Models\Blueprint::max('price');
 
-
-        return view('blueprints.public_index', compact('blueprints'));
+        return view('blueprints.public_index', compact(['blueprints','maxPrice']));
     }
- /**
+
+    /**
  */
 public function downloadFree(Blueprint $blueprint)
 {
