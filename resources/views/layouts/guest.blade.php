@@ -27,7 +27,12 @@
                     </a>
                     <a href="{{ route('home') }}#plans"
                        class="text-[#5C4033] hover:text-[#D76040] transition duration-200 font-medium relative group">
-                        Planos
+                        Destacados
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#D76040] transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="{{ route('blueprints.public.index') }}"
+                       class="text-[#5C4033] hover:text-[#D76040] transition duration-200 font-medium relative group">
+                        Catálogo
                         <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#D76040] transition-all duration-300 group-hover:w-full"></span>
                     </a>
                     <a href="https://wa.me/573133097353" target="_blank"

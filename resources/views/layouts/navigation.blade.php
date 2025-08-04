@@ -4,7 +4,7 @@
             <div class="flex">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                      
+
                         <div class="block h-9 w-auto fill-current text-gray-800 font-bold text-xl bg-gradient-to-r from-orange-500 to-orange-700 bg-clip-text text-transparent">
                             MERCARQ
                         </div>
@@ -20,6 +20,9 @@
                     </x-nav-link>
                     <x-nav-link :href="route('purchases.index')" :active="request()->routeIs('purchases.index')">
                         {{ __('Mis Compras') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('blueprints.public.index')" :active="request()->routeIs('blueprints.public.index')">
+                        {{ __('Catálogo') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -85,6 +88,9 @@
             </x-responsive-nav-link>
              <x-responsive-nav-link :href="route('purchases.index')" :active="request()->routeIs('purchases.index')">
                 {{ __('Mis Compras') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('blueprints.public.index')" :active="request()->routeIs('blueprints.public.index')">
+                {{ __('Todos los Planos') }}
             </x-responsive-nav-link>
         </div>
 
