@@ -1,30 +1,32 @@
-# 🌐 Cuerpo Sano — Plataforma Educativa Interactiva
+# 🏗️ MercarQ — Gestión y Venta de Planos Arquitectónicos
 
-> 💬 *Proyecto desarrollado como apoyo al proyecto de grado de bachillerato de mi hermana, enfocado en la educación sexual y anatómica infantil.*
+> 💬 *Colaboración en el desarrollo de una plataforma para gestionar y comprar planos arquitectónicos.
+  Proyecto realizado para estudiantes de bachillerato como trabajo de grado.*
 
 ---
 
 ### 🧠 Descripción
-**Cuerpo Sano** es una **página web educativa e interactiva** diseñada para enseñar sobre la anatomía del cuerpo humano (niño y niña) de manera **segura, didáctica y divertida**.  
-El sitio combina **información pedagógica, historietas y un juego interactivo** desarrollado en **Godot Engine**, integrado mediante un servidor Python.
+**MercarQ** es una plataforma web desarrollada con **Laravel y Docker** que permite gestionar, visualizar y adquirir planos de arquitectura de forma digital. El sistema automatiza el proceso de compra y contacto con la empresa mediante **códigos de compra** y **envío automático por WhatsApp**, ofreciendo una experiencia de usuario ágil y moderna. 
 
-Su propósito es fomentar el aprendizaje sobre la anatomía y la prevención desde la infancia, presentando los temas con un enfoque respetuoso, accesible y educativo.
-
+Mi participación en el proyecto se centró en la **implementación de Docker**, la **configuración de variables de entorno** y la **creación del sistema de códigos de compra**, así como la integración con WhatsApp y la optimización de vistas y tablas internas.
+  
 ---
 
 ### 🧩 Características principales
-- 🧍‍♀️ Secciones educativas sobre anatomía, prevención y educación sexual adaptadas para niños.  
-- 🎮 Integración del juego interactivo desarrollado en **Godot Engine** mediante `<iframe>`.  
-- 🌐 Servidor local en **Python** para servir los archivos del juego y conectar la web con el entorno de aprendizaje.  
-- 📚 Diseño pedagógico acompañado de historietas y materiales visuales educativos.  
-- 👩‍🎨 Colaboración con estudiantes encargados de ilustraciones y contenido didáctico.  
+  - 🐳 Implementación de Docker para el despliegue y estandarización del entorno.
+  - ⚙️ Configuración y actualización de variables de entorno para credenciales y settings.
+  - 💳 Desarrollo del sistema de códigos de compra y registro automático en base de datos.
+  - 💬 Integración con WhatsApp para el envío automático de mensajes tras la compra.
+  - 🧭 Optimización de vistas y UX, mejorando la navegación y experiencia del usuario.
+  - 🔍 Implementación de filtros dinámicos en tablas para la gestión de planos y usuarios.
 
 ---
 
 ### 🛠️ Tecnologías Utilizadas
-- **Frontend:** HTML5, CSS3, JavaScript  
-- **Servidor:** Python (servidor local de integración)  
-- **Motor de juego:** Godot Engine (para el minijuego integrado)  
+- **Backend:** PHP, Laravel 
+- **Frontend:** HTML5, CSS3, JavaScript
+- **Base de Datos:** MySQL
+- **Insfraestructura:** Docker
 
 ---
 
@@ -32,41 +34,61 @@ Su propósito es fomentar el aprendizaje sobre la anatomía y la prevención des
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/Niiw-dev/cuerpoSano.git
+   git clone https://github.com/Enzen544/Mercarq.git
    ```
-2. Abre la carpeta del proyecto:
+2. Copia el archivo de ejemplo de variables de entorno y configúralo.:
    ```bash
-   cd cuerpoSano
+   cp .env.example .env
    ```
-3. Inicia un servidor local en Python para visualizar la web:
+   Luego edita el archivo `.env` para definir tus credenciales de base de datos, URLs y claves necesarias.
+3. Construye los contenedores de Docker:
    ```bash
-   python server.py
+   docker-compose up -d
    ```
-4. Accede a `http://localhost:8000` en tu navegador para explorar el sitio.  
+   Esto levantará el entorno completo de Laravel, PHP, MySQL y Nginx.
+4. Ejecuta las migraciones y el seeding inicial.
+   ```bash
+   docker exec -it app php artisan migrate --seed
+   ```
+    Luego accede a `http://localhost` en tu navegador para visualizar la aplicación.
 
 ---
 
 ### 🚀 Uso
-La plataforma ofrece diferentes secciones educativas y un juego de arrastre de partes del cuerpo.  
-Los niños pueden aprender sobre la anatomía humana, prevención y salud de forma segura y visual.  
-El objetivo es **aprender jugando**, fortaleciendo la comprensión anatómica de manera interactiva.
+  La plataforma permite:
+  - Visualizar y gestionar planos arquitectónicos.
+  - Realizar compras mediante códigos únicos.
+  - Recibir confirmaciones automáticas por WhatsApp.
+  - Administrar contenido desde un panel interno seguro.
+
+  Ideal para empresas o estudios de arquitectura que deseen **digitalizar la venta y entrega de planos**
+  con trazabilidad y control de inventario.
 
 ---
 
 ### 🧩 Estructura del Proyecto
 ```plaintext
-📦 cuerpoSano
- ┣ 📂 Templates/         # Página principal 
- ┣ 📂 chicles/           # Juego
- ┣ 📂 juegosara/         # Carpeta del juego Godot integrado
- ┣ 📂 millonario_html/   # Juego
- ┣ 📂 pregunta/          # Juego
- ┣ 📂 static/          # archivos staticos como javascript, imagenes, estilos css y videos
- ┣ 📜 server.py          # Servidor python para que funcione el juego
- ┗ 📜 README.md
+  📦 MercarQ
+   ┣ 📂 app/                  # Lógica principal del backend Laravel (modelos, controladores)
+   ┣ 📂 bootstrap/            # Configuración inicial de Laravel
+   ┣ 📂 config/               # Archivos de configuración del framework
+   ┣ 📂 database/             # Migraciones y seeders
+   ┣ 📂 public/               # Archivos públicos (index.php, assets)
+   ┣ 📂 resources/            # Vistas Blade, componentes y recursos del frontend
+   ┣ 📂 routes/               # Definición de rutas web y API
+   ┣ 📂 storage/              # Archivos generados y logs
+   ┣ 📂 tests/                # Pruebas unitarias y funcionales
+   ┣ 🐳 docker-compose.yml    # Configuración del entorno Docker
+   ┣ 📜 .env.example          # Ejemplo de variables de entorno
+   ┣ 📜 artisan               # CLI de Laravel
+   ┣ 📜 composer.json         # Dependencias PHP
+   ┣ 📜 package.json          # Dependencias JS
+   ┣ 📜 README.md             # Documentación del proyecto
+   ┗ 📜 .gitignore
 ```
 
 ---
 
 ### 👨‍💻 Autor
-Creado por **[Niiw.Dev](https://github.com/Niiw-dev)** 🔥
+  Colaboración técnica de **[Niiw.Dev](https://github.com/Niiw-dev)**. 🔥  
+  Desarrollo y soporte técnico en Docker, entorno y sistema de compras
