@@ -90,5 +90,6 @@ Mi participación en el proyecto se centró en la **implementación de Docker**,
 ---
 
 ### 👨‍💻 Autor
+  Creador y programador principal: **[Enzen544](https://github.com/Enzen544)**. 🧩
   Colaboración técnica de **[Niiw.Dev](https://github.com/Niiw-dev)**. 🔥  
   Desarrollo y soporte técnico en Docker, entorno y sistema de compras
